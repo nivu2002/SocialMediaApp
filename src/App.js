@@ -9,6 +9,7 @@ import Missing from './Missing'
 import Footer from './Footer'
 import { Link, Route, Routes } from 'react-router'
 import Post from './Post'
+import PostLayout from './PostLayout'
 
 const App = () => {
   return (
@@ -18,7 +19,6 @@ const App = () => {
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
-          <li><Link to="/newpost">NewPost</Link></li>
           <li><Link to="/postpage">PostPage</Link></li>
 
         </ul>
@@ -27,12 +27,15 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/newpost" element={<NewPost />} />
-        <Route path="/postpage" element={<PostPage />} />
+        <Route path='/postpage' element={<PostLayout/>}> 
+        {/* Nested routing */}
+          <Route index element={<PostPage />} />
+          <Route path=":id" element={<Post />} />
+          <Route path="newpost" element={<NewPost />} />
+        </Route>
+        <Route path="*" element={<Missing />} />
       </Routes>
 
-      <Routes>
-        <Route path="/postpage/:id" element={<Post />} />
-      </Routes>
 
       {/* <Header/>
       <Nav/>

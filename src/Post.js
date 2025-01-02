@@ -4,7 +4,10 @@ import { useParams } from 'react-router'
 const Post = () => {
     const { id } = useParams()
   return (
-    <div>Post {id}</div>
+    <div>
+      <br></br>
+      Post {id}
+    </div>
   )
 }
 
