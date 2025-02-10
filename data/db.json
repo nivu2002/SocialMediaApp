@@ -1,22 +1,22 @@
 {
-   "posts": [
+  "posts": [
     {
-        "id": 1,
-        "title": "Post 1",
-        "datetime": "2nd Jan 2025, 2 PM",
-        "body": "Im learning MERN"
-      },
-      {
-        "id": 2,
-        "title": "Post 2",
-        "datetime": "2nd Jan 2025, 2 PM",
-        "body": "Im learned Wordpress Last week"
-      },
-      {
-        "id": 3,
-        "title": "Post 3",
-        "datetime": "2nd Jan 2025, 2 PM",
-        "body": "Once I complete React Video will do a admin panel project"
-      }
-   ] 
+      "id": "1",
+      "title": "Post 1",
+      "datetime": "2nd Jan 2025, 2 PM",
+      "body": "Im learning MERN"
+    },
+    {
+      "id": "2",
+      "title": "Post 2",
+      "datetime": "2nd Jan 2025, 2 PM",
+      "body": "Im learned Wordpress Last week"
+    },
+    {
+      "id": "3",
+      "title": "yes",
+      "datetime": "February 10, 2025 4:58:29 PM",
+      "body": "gggggggggggg"
+    }
+  ]
 }
