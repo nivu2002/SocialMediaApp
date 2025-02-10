@@ -7,38 +7,40 @@ import PostPage from './PostPage'
 import About from './About'
 import Missing from './Missing'
 import Footer from './Footer'
-import { Link, Navigate, Route, Routes } from 'react-router'
+import { Link, Navigate, Route, Routes, useNavigate } from 'react-router'
 import Post from './Post'
 import PostLayout from './PostLayout'
 import { format } from 'date-fns'
+import api from "./api/posts"
 
 const App = () => {
 
-  const [posts,setPosts] = useState([
-    {
-      id: 1,
-      title: 'Post 1',
-      datetime: '2nd Jan 2025, 2 PM',
-      body: 'Im learning MERN'
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      datetime: '2nd Jan 2025, 2 PM',
-      body: 'Im learned Wordpress Last week'
-    },
-    {
-      id: 3,
-      title: 'Post 3',
-      datetime: '2nd Jan 2025, 2 PM',
-      body: 'Once I complete React Video will do a admin panel project'
-    }
-  ])
+  const [posts,setPosts] = useState([])
 
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [postTitle,setPostTitle] = useState();
   const [postBody,setPostBody] = useState();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const fetchPosts = async () =>{
+      try{
+        const response = await api.get('/posts')
+        setPosts(response.data)
+      } catch(err){
+        if(err.response){
+          //Not in the 200 response range
+          console.log(err.response.data);
+          console.log(err.response.message);
+          console.log(err.response.status);
+        } else{
+          console.log(`Error: ${err.message}`);
+        }
+      }
+    }
+    fetchPosts();
+  },[])
 
   useEffect(() => {
     const filteredResults = posts.filter((post) => 
@@ -57,26 +59,51 @@ const App = () => {
     setPosts(allPosts)
     setPostTitle('');
     setPostBody('');
+    navigate('/')
+
+  }
+
+  const handleDelete = (id) => {
+    const postsList = posts.filter((post) => post.id !== id);
+    setPosts(postsList);
+    navigate('/')
   }
 
   return (
     <div className='App'>
+      
+      
       <Header title = "Networking with Nivi :)"/>
       <Nav 
       search={search}
       setSearch={setSearch}/>
-      <Home 
+      <Routes>
+
+      <Route path='/' element={<Home 
       posts={searchResults}
-      />
-      <NewPost 
-      postTitle = {postTitle}
-      setPostTitle={setPostTitle}
-      postBody={postBody}
-      setPostBody={setPostBody}
-      handleSubmit={handleSubmit}/>
-      <PostPage/>
-      <About/>
-      <Missing/>
+      />}/>
+
+      <Route path='post'>
+          <Route index  element = {
+            <NewPost 
+            postTitle = {postTitle}
+            setPostTitle={setPostTitle}
+            postBody={postBody}
+            setPostBody={setPostBody}
+            handleSubmit={handleSubmit}/>} />
+          <Route path=':id' element = {
+            <PostPage 
+            posts={posts} 
+            handleDelete={handleDelete}/>}/>
+      </Route>
+
+      <Route path='about' element = {
+      <About/>}/>
+
+      <Route path='*' element = {
+      <Missing/>}/>
+      </Routes>
+
       <Footer/>
     </div>
   )

@@ -1,10 +1,28 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link, useParams } from 'react-router'
 
-const PostPage = () => {
+const PostPage = ({posts, handleDelete}) => {
+  const {id} = useParams();
+  const post = posts.find(post => (post.id).toString() === id);
   return (
-    <main>
-        <h1>PostPage</h1>
+    <main className='PostPage'>
+        <article className='post'>
+          {post && 
+          <>
+          <h2>{post.title}</h2>
+          <p className='postDate'>{post.datetime}</p>
+          <p className='postBody'>{post.body} </p>
+          <button className="deleteButton" onClick={(id) => handleDelete(post.id)}>Delete Post</button>
+          </>}
+
+          {!post && 
+          <>
+            <h2>Post Not Found</h2>
+            <p>Well, that's Disappointing.</p>
+            <p>
+              <Link to='/'>Visit Home Page</Link></p>
+          </>}
+        </article>
         
         
     </main>
